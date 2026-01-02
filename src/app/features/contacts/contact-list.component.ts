@@ -31,22 +31,23 @@ import { ContactsService, Contact } from '../../core/services/contacts.service';
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
     
-    <div class="p-4">
-      <div class="flex justify-content-between align-items-center mb-4">
+    <div class="p-2 md:p-4">
+      <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-4 gap-3">
         <div>
-          <h1 class="text-3xl font-bold text-900 m-0">Contacts</h1>
+          <h1 class="text-2xl md:text-3xl font-bold text-900 m-0">Contacts</h1>
           <p class="text-600 mt-1">Manage your contact list</p>
         </div>
         <p-button 
           label="Add Contact" 
           icon="pi pi-plus" 
           (onClick)="navigateToCreate()"
+          class="w-full md:w-auto"
         ></p-button>
       </div>
 
       <p-card>
         <div class="flex gap-3 mb-4">
-          <span class="p-input-icon-left flex-grow-1">
+          <span class="p-input-icon-left w-full">
             <i class="pi pi-search"></i>
             <input 
               type="text" 
@@ -69,6 +70,8 @@ import { ContactsService, Contact } from '../../core/services/contacts.service';
           [loading]="loading"
           [rowHover]="true"
           styleClass="p-datatable-sm"
+          responsiveLayout="scroll"
+          [breakpoint]="'768px'"
         >
           <ng-template pTemplate="header">
             <tr>
