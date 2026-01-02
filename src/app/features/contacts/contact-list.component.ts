@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,7 +29,7 @@ import { ContactsService, Contact } from '../../core/services/contacts.service';
   providers: [ConfirmationService, MessageService],
   templateUrl: './contact-list.component.html'
 })
-export class ContactListComponent implements OnInit {
+export class ContactListComponent {
   contacts: Contact[] = [];
   totalRecords = 0;
   loading = false;
@@ -42,10 +42,6 @@ export class ContactListComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
-
-  ngOnInit(): void {
-    this.loadContacts({ first: 0, rows: 10 });
-  }
 
   loadContacts(event: any): void {
     this.loading = true;
