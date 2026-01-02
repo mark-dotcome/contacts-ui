@@ -20,59 +20,7 @@ import { ThemeService } from '../../../core/services/theme.service';
     AvatarModule,
     MenuModule
   ],
-  template: `
-    <div class="min-h-screen flex flex-column">
-      <header class="surface-card shadow-1">
-        <div class="flex align-items-center justify-content-between px-2 md:px-4 py-2 md:py-3">
-          <div class="flex align-items-center gap-2 md:gap-3">
-            <div class="text-primary">
-              <i class="pi pi-users text-xl md:text-2xl"></i>
-            </div>
-            <span class="text-lg md:text-xl font-bold text-900">Contacts App</span>
-          </div>
-
-          <div class="flex align-items-center gap-1 md:gap-3">
-            <p-button 
-              [icon]="themeService.isDarkTheme() ? 'pi pi-sun' : 'pi pi-moon'"
-              [rounded]="true"
-              [text]="true"
-              (onClick)="themeService.toggleTheme()"
-              pTooltip="Toggle theme"
-            ></p-button>
-
-            <p-button 
-              icon="pi pi-bell"
-              [rounded]="true"
-              [text]="true"
-              [badge]="'3'"
-              badgeSeverity="danger"
-              class="hidden md:inline-flex"
-            ></p-button>
-
-            <p-button 
-              icon="pi pi-cog"
-              [rounded]="true"
-              [text]="true"
-              class="hidden md:inline-flex"
-            ></p-button>
-
-            <div class="flex align-items-center gap-2 cursor-pointer" (click)="userMenu.toggle($event)">
-              <p-avatar 
-                [label]="getUserInitials()" 
-                styleClass="bg-primary text-white"
-                shape="circle"
-              ></p-avatar>
-            </div>
-            <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
-          </div>
-        </div>
-      </header>
-
-      <main class="flex-grow-1 overflow-auto">
-        <router-outlet></router-outlet>
-      </main>
-    </div>
-  `
+  templateUrl: './layout.component.html'
 })
 export class LayoutComponent {
   userMenuItems: MenuItem[] = [
