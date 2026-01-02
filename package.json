@@ -1,0 +1,24 @@
+{
+  "name": "contacts-ui",
+  "version": "1.0.0",
+  "description": "UI mockups for the Contacts App with Angular/PrimeNG styling",
+  "scripts": {
+    "start": "npx serve src -p 3000",
+    "dev": "npx serve src -p 3000",
+    "build": "mkdir -p dist && cp -r src/* dist/",
+    "test": "echo 'Running visual tests...' && npx serve src -p 3000 &",
+    "lint": "echo 'No linting configured for static HTML files'"
+  },
+  "keywords": [
+    "contacts",
+    "ui",
+    "mockups",
+    "primeng",
+    "angular"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

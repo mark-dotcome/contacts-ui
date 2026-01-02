@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts App - Login</title>
+    <link id="primeng-theme-light" rel="stylesheet" href="https://unpkg.com/primeng@17.18.0/resources/themes/lara-light-blue/theme.css">
+    <link id="primeng-theme-dark" rel="stylesheet" href="https://unpkg.com/primeng@17.18.0/resources/themes/lara-dark-blue/theme.css" disabled>
+    <link rel="stylesheet" href="https://unpkg.com/primeng@17.18.0/resources/primeng.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/primeicons@7.0.0/primeicons.css">
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.css">
+    <style>
+        :root {
+            --surface-ground: #f8fafc;
+            --surface-card: white;
+            --surface-border: #e2e8f0;
+            --text-color: #1e293b;
+            --text-color-secondary: #64748b;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --input-bg: white;
+            --input-border: #e2e8f0;
+            --navbar-bg: white;
+            --navbar-border: rgba(0,0,0,0.1);
+            --social-btn-bg: white;
+            --social-btn-border: #e2e8f0;
+            --social-btn-text: #334155;
+            --link-color: #667eea;
+            --toggle-bg: #f8fafc;
+            --toggle-border: #e2e8f0;
+            --toggle-text: #64748b;
+            --toggle-icon: #f59e0b;
+        }
+        html[data-theme="dark"] {
+            --surface-ground: #0f172a;
+            --surface-card: #1e293b;
+            --surface-border: #334155;
+            --text-color: #f1f5f9;
+            --text-color-secondary: #94a3b8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --input-bg: #0f172a;
+            --input-border: #475569;
+            --navbar-bg: #1e293b;
+            --navbar-border: rgba(0,0,0,0.3);
+            --social-btn-bg: #1e293b;
+            --social-btn-border: #475569;
+            --social-btn-text: #e2e8f0;
+            --link-color: #818cf8;
+            --toggle-bg: #0f172a;
+            --toggle-border: #475569;
+            --toggle-text: #94a3b8;
+            --toggle-icon: #fbbf24;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: var(--toggle-text);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .theme-toggle:hover { opacity: 0.8; }
+        .theme-toggle i { color: var(--toggle-icon); }
+        .login-card {
+            background: var(--surface-card);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            margin: 1rem;
+        }
+        .login-header { text-align: center; margin-bottom: 2rem; }
+        .login-logo {
+            width: 64px;
+            height: 64px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        .login-logo i { color: white; font-size: 1.75rem; }
+        .login-title { font-size: 1.5rem; font-weight: 600; color: var(--text-color); margin: 0; }
+        .login-subtitle { color: var(--text-color-secondary); margin: 0.5rem 0 0 0; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; font-weight: 500; color: var(--text-color); margin-bottom: 0.5rem; font-size: 0.875rem; }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-color-secondary); }
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.75rem;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+        .form-control:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .form-control::placeholder { color: var(--text-color-secondary); }
+        .remember-forgot { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.875rem; }
+        .remember-me { display: flex; align-items: center; gap: 0.5rem; color: var(--text-color-secondary); }
+        .remember-me input { accent-color: #667eea; }
+        .forgot-link { color: var(--link-color); text-decoration: none; }
+        .forgot-link:hover { text-decoration: underline; }
+        .btn-login {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+        .divider { display: flex; align-items: center; margin: 1.5rem 0; color: var(--text-color-secondary); font-size: 0.875rem; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--surface-border); }
+        .divider span { padding: 0 1rem; }
+        .social-buttons { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+        .btn-social {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--social-btn-bg);
+            border: 1px solid var(--social-btn-border);
+            border-radius: 8px;
+            color: var(--social-btn-text);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        .btn-social:hover { border-color: #667eea; }
+        .btn-social i { font-size: 1.1rem; }
+        .signup-link { text-align: center; color: var(--text-color-secondary); font-size: 0.875rem; }
+        .signup-link a { color: var(--link-color); text-decoration: none; font-weight: 500; }
+        .signup-link a:hover { text-decoration: underline; }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            body { padding: 1rem; }
+            .login-card { padding: 2rem 1.5rem; }
+            .theme-toggle { padding: 0.375rem 0.75rem; font-size: 0.75rem; }
+            .social-buttons { flex-direction: column; }
+            .remember-forgot { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="pi pi-sun" id="theme-icon"></i>
+        <span id="theme-label">Light</span>
+    </div>
+
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="pi pi-users"></i>
+            </div>
+            <h1 class="login-title">Contacts App</h1>
+            <p class="login-subtitle">Sign in to manage your contacts</p>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-wrapper">
+                    <i class="pi pi-envelope"></i>
+                    <input type="email" class="form-control" placeholder="Enter your email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <i class="pi pi-lock"></i>
+                    <input type="password" class="form-control" placeholder="Enter your password">
+                </div>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="pi pi-sign-in"></i>
+                Sign In
+            </button>
+        </form>
+
+        <div class="divider"><span>or continue with</span></div>
+
+        <div class="social-buttons">
+            <button type="button" class="btn-social">
+                <i class="pi pi-google"></i>
+                Google
+            </button>
+            <button type="button" class="btn-social">
+                <i class="pi pi-microsoft"></i>
+                Microsoft
+            </button>
+        </div>
+
+        <p class="signup-link">
+            Don't have an account? <a href="#">Sign up</a>
+        </p>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            
+            // Toggle PrimeNG themes
+            document.getElementById('primeng-theme-light').disabled = newTheme === 'dark';
+            document.getElementById('primeng-theme-dark').disabled = newTheme === 'light';
+            
+            // Update toggle button
+            const icon = document.getElementById('theme-icon');
+            const label = document.getElementById('theme-label');
+            
+            if (newTheme === 'dark') {
+                icon.className = 'pi pi-moon';
+                label.textContent = 'Dark';
+            } else {
+                icon.className = 'pi pi-sun';
+                label.textContent = 'Light';
+            }
+            
+            // Save preference
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Initialize theme from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>

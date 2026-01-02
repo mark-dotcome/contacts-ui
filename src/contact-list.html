@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts App - Contact List</title>
+    <link id="primeng-theme-light" rel="stylesheet" href="https://unpkg.com/primeng@17.18.0/resources/themes/lara-light-blue/theme.css">
+    <link id="primeng-theme-dark" rel="stylesheet" href="https://unpkg.com/primeng@17.18.0/resources/themes/lara-dark-blue/theme.css" disabled>
+    <link rel="stylesheet" href="https://unpkg.com/primeng@17.18.0/resources/primeng.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/primeicons@7.0.0/primeicons.css">
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.css">
+    <style>
+        :root {
+            --surface-ground: #f8fafc;
+            --surface-card: white;
+            --surface-border: #e2e8f0;
+            --text-color: #1e293b;
+            --text-color-secondary: #64748b;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --input-bg: white;
+            --input-border: #e2e8f0;
+            --navbar-bg: white;
+            --navbar-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --table-header-bg: #f8fafc;
+            --table-row-hover: #f1f5f9;
+            --btn-secondary-bg: white;
+            --btn-secondary-border: #e2e8f0;
+            --btn-secondary-text: #64748b;
+            --toggle-bg: #f8fafc;
+            --toggle-border: #e2e8f0;
+            --toggle-text: #64748b;
+            --toggle-icon: #f59e0b;
+            --avatar-bg: #e2e8f0;
+            --avatar-text: #64748b;
+        }
+        html[data-theme="dark"] {
+            --surface-ground: #0f172a;
+            --surface-card: #1e293b;
+            --surface-border: #334155;
+            --text-color: #f1f5f9;
+            --text-color-secondary: #94a3b8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --input-bg: #0f172a;
+            --input-border: #475569;
+            --navbar-bg: #1e293b;
+            --navbar-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --table-header-bg: #0f172a;
+            --table-row-hover: #334155;
+            --btn-secondary-bg: #0f172a;
+            --btn-secondary-border: #475569;
+            --btn-secondary-text: #94a3b8;
+            --toggle-bg: #0f172a;
+            --toggle-border: #475569;
+            --toggle-text: #94a3b8;
+            --toggle-icon: #fbbf24;
+            --avatar-bg: #334155;
+            --avatar-text: #94a3b8;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: var(--surface-ground); min-height: 100vh; }
+        .navbar { background: var(--navbar-bg); padding: 1rem 2rem; box-shadow: var(--navbar-shadow); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-border); }
+        .navbar-brand { display: flex; align-items: center; gap: 0.75rem; font-weight: 600; font-size: 1.25rem; color: var(--text-color); }
+        .navbar-brand .logo { width: 36px; height: 36px; background: var(--primary-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .navbar-brand .logo i { color: white; font-size: 1.1rem; }
+        .navbar-user { display: flex; align-items: center; gap: 1rem; }
+        .theme-toggle { display: flex; align-items: center; gap: 0.5rem; background: var(--toggle-bg); border: 1px solid var(--toggle-border); border-radius: 20px; padding: 0.375rem 0.75rem; color: var(--toggle-text); font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
+        .theme-toggle:hover { opacity: 0.8; }
+        .theme-toggle i { color: var(--toggle-icon); }
+        .user-avatar { width: 40px; height: 40px; background: var(--avatar-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--avatar-text); font-weight: 600; }
+        .main-content { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .page-title { font-size: 1.75rem; font-weight: 600; color: var(--text-color); margin: 0; }
+        .page-subtitle { color: var(--text-color-secondary); margin: 0.25rem 0 0 0; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s; }
+        .btn-primary { background: var(--primary-gradient); border: none; color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: var(--btn-secondary-bg); border: 1px solid var(--btn-secondary-border); color: var(--btn-secondary-text); }
+        .btn-secondary:hover { border-color: #667eea; }
+        .card { background: var(--surface-card); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--surface-border); }
+        .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--surface-border); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .search-box { position: relative; flex: 1; max-width: 300px; }
+        .search-box i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-color-secondary); }
+        .search-box input { width: 100%; padding: 0.625rem 1rem 0.625rem 2.5rem; border: 1px solid var(--input-border); border-radius: 8px; font-size: 0.875rem; background: var(--input-bg); color: var(--text-color); }
+        .search-box input:focus { outline: none; border-color: #667eea; }
+        .search-box input::placeholder { color: var(--text-color-secondary); }
+        .header-actions { display: flex; gap: 0.5rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: var(--table-header-bg); padding: 1rem 1.5rem; text-align: left; font-weight: 600; color: var(--text-color-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 1rem 1.5rem; border-top: 1px solid var(--surface-border); color: var(--text-color); }
+        tr:hover td { background: var(--table-row-hover); }
+        .contact-info { display: flex; align-items: center; gap: 0.75rem; }
+        .contact-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; color: white; }
+        .contact-avatar.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .contact-avatar.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .contact-avatar.pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+        .contact-avatar.green { background: linear-gradient(135deg, #10b981, #047857); }
+        .contact-avatar.orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .contact-name { font-weight: 500; color: var(--text-color); }
+        .contact-email { font-size: 0.875rem; color: var(--text-color-secondary); }
+        .action-buttons { display: flex; gap: 0.5rem; }
+        .btn-icon { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--surface-border); background: var(--surface-card); color: var(--text-color-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-icon:hover { border-color: #667eea; color: #667eea; }
+        .btn-icon.danger:hover { border-color: #dc2626; color: #dc2626; }
+        .pagination { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-top: 1px solid var(--surface-border); }
+        .pagination-info { color: var(--text-color-secondary); font-size: 0.875rem; }
+        .pagination-buttons { display: flex; gap: 0.25rem; }
+        .page-btn { width: 36px; height: 36px; border-radius: 6px; border: 1px solid var(--surface-border); background: var(--surface-card); color: var(--text-color-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; transition: all 0.2s; }
+        .page-btn:hover { border-color: #667eea; }
+        .page-btn.active { background: var(--primary-gradient); border-color: transparent; color: white; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar { padding: 0.75rem 1rem; }
+            .navbar-brand span { display: none; }
+            .main-content { padding: 1rem; }
+            .page-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .btn-primary { width: 100%; justify-content: center; }
+            .card-header { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: none; }
+            table { display: block; overflow-x: auto; }
+            th, td { padding: 0.75rem 1rem; white-space: nowrap; }
+            .pagination { flex-direction: column; gap: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .navbar-user { gap: 0.5rem; }
+            .theme-toggle { padding: 0.25rem 0.5rem; font-size: 0.7rem; }
+            .user-avatar { width: 32px; height: 32px; font-size: 0.75rem; }
+            .page-title { font-size: 1.25rem; }
+            .contact-avatar { width: 32px; height: 32px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="logo"><i class="pi pi-users"></i></div>
+            <span>Contacts App</span>
+        </div>
+        <div class="navbar-user">
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <i class="pi pi-sun" id="theme-icon"></i>
+                <span id="theme-label">Light</span>
+            </div>
+            <i class="pi pi-bell" style="color: var(--text-color-secondary); cursor: pointer;"></i>
+            <i class="pi pi-cog" style="color: var(--text-color-secondary); cursor: pointer;"></i>
+            <div class="user-avatar">MW</div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Contacts</h1>
+                <p class="page-subtitle">Manage your contact list</p>
+            </div>
+            <button class="btn btn-primary">
+                <i class="pi pi-plus"></i>
+                Add Contact
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="search-box">
+                    <i class="pi pi-search"></i>
+                    <input type="text" placeholder="Search contacts...">
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary"><i class="pi pi-filter"></i>Filter</button>
+                    <button class="btn btn-secondary"><i class="pi pi-download"></i>Export</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>App</th>
+                        <th>Modified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="contact-info">
+                                <div class="contact-avatar blue">JD</div>
+                                <div>
+                                    <div class="contact-name">John Doe</div>
+                                    <div class="contact-email">john.doe@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>(555) 123-4567</td>
+                        <td>123 Main St, Springfield, IL</td>
+                        <td>contacts-app</td>
+                        <td>Jan 2, 2026</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon"><i class="pi pi-eye"></i></button>
+                                <button class="btn-icon"><i class="pi pi-pencil"></i></button>
+                                <button class="btn-icon danger"><i class="pi pi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="contact-info">
+                                <div class="contact-avatar purple">JS</div>
+                                <div>
+                                    <div class="contact-name">Jane Smith</div>
+                                    <div class="contact-email">jane.smith@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>(555) 234-5678</td>
+                        <td>456 Oak Ave, Chicago, IL</td>
+                        <td>contacts-app</td>
+                        <td>Jan 1, 2026</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon"><i class="pi pi-eye"></i></button>
+                                <button class="btn-icon"><i class="pi pi-pencil"></i></button>
+                                <button class="btn-icon danger"><i class="pi pi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="contact-info">
+                                <div class="contact-avatar pink">RJ</div>
+                                <div>
+                                    <div class="contact-name">Robert Johnson</div>
+                                    <div class="contact-email">robert.j@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>(555) 345-6789</td>
+                        <td>789 Pine Rd, Boston, MA</td>
+                        <td>contacts-app</td>
+                        <td>Dec 30, 2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon"><i class="pi pi-eye"></i></button>
+                                <button class="btn-icon"><i class="pi pi-pencil"></i></button>
+                                <button class="btn-icon danger"><i class="pi pi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="contact-info">
+                                <div class="contact-avatar green">EW</div>
+                                <div>
+                                    <div class="contact-name">Emily Wilson</div>
+                                    <div class="contact-email">emily.w@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>(555) 456-7890</td>
+                        <td>321 Elm St, Seattle, WA</td>
+                        <td>contacts-app</td>
+                        <td>Dec 28, 2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon"><i class="pi pi-eye"></i></button>
+                                <button class="btn-icon"><i class="pi pi-pencil"></i></button>
+                                <button class="btn-icon danger"><i class="pi pi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="contact-info">
+                                <div class="contact-avatar orange">MB</div>
+                                <div>
+                                    <div class="contact-name">Michael Brown</div>
+                                    <div class="contact-email">m.brown@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>(555) 567-8901</td>
+                        <td>654 Cedar Ln, Austin, TX</td>
+                        <td>contacts-app</td>
+                        <td>Dec 25, 2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon"><i class="pi pi-eye"></i></button>
+                                <button class="btn-icon"><i class="pi pi-pencil"></i></button>
+                                <button class="btn-icon danger"><i class="pi pi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <span class="pagination-info">Showing 1 to 5 of 24 contacts</span>
+                <div class="pagination-buttons">
+                    <button class="page-btn"><i class="pi pi-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn"><i class="pi pi-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            document.getElementById('primeng-theme-light').disabled = newTheme === 'dark';
+            document.getElementById('primeng-theme-dark').disabled = newTheme === 'light';
+            
+            const icon = document.getElementById('theme-icon');
+            const label = document.getElementById('theme-label');
+            
+            if (newTheme === 'dark') {
+                icon.className = 'pi pi-moon';
+                label.textContent = 'Dark';
+            } else {
+                icon.className = 'pi pi-sun';
+                label.textContent = 'Light';
+            }
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>
