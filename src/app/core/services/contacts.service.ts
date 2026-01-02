@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 export interface Address {
@@ -61,7 +62,18 @@ export class ContactsService {
       params = params.set('q', query);
     }
 
-    return this.http.get<SearchResponse>(`${this.apiUrl}/search`, { params });
+    return this.http.get<{ total: number; page: number; limit: number; data: Contact[] }>(
+      `${this.apiUrl}/search`, 
+      { params }
+    ).pipe(
+      map(response => ({
+        contacts: response.data,
+        total: response.total,
+        page: response.page,
+        limit: response.limit,
+        totalPages: Math.ceil(response.total / response.limit)
+      }))
+    );
   }
 
   getContact(id: string): Observable<Contact> {
