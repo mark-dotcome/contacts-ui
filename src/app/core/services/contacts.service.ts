@@ -81,11 +81,21 @@ export class ContactsService {
   }
 
   createContact(contact: Contact): Observable<Contact> {
-    return this.http.post<Contact>(`${this.apiUrl}/`, contact);
+    return this.http.post<{ id: string } & Omit<Contact, '_id'>>(`${this.apiUrl}/`, contact).pipe(
+      map(response => ({
+        ...response,
+        _id: response.id
+      } as Contact))
+    );
   }
 
   updateContact(id: string, contact: Contact): Observable<Contact> {
-    return this.http.put<Contact>(`${this.apiUrl}/${id}`, contact);
+    return this.http.put<{ id: string } & Omit<Contact, '_id'>>(`${this.apiUrl}/${id}`, contact).pipe(
+      map(response => ({
+        ...response,
+        _id: response.id
+      } as Contact))
+    );
   }
 
   deleteContact(id: string): Observable<{ message: string }> {
