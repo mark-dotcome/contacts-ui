@@ -16,18 +16,32 @@
   </div>
 
   <p-card>
-    <div class="flex gap-3 mb-4">
-      <span class="p-input-icon-left w-full">
-        <i class="pi pi-search"></i>
+    <div class="mb-4">
+      <p-inputgroup>
+        <p-inputgroup-addon>
+          <i class="pi pi-search"></i>
+        </p-inputgroup-addon>
         <input 
           type="text" 
           pInputText 
           [(ngModel)]="searchQuery"
           (input)="onSearch()"
-          placeholder="Search contacts..." 
+          placeholder="Search by name, email, phone, or address..." 
           class="w-full"
         />
-      </span>
+        @if (searchQuery) {
+          <p-inputgroup-addon>
+            <p-button 
+              icon="pi pi-times" 
+              [text]="true" 
+              [rounded]="true"
+              severity="secondary"
+              (onClick)="clearSearch()"
+              pTooltip="Clear search"
+            ></p-button>
+          </p-inputgroup-addon>
+        }
+      </p-inputgroup>
     </div>
 
     <p-table 
